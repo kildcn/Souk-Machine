@@ -1,2 +1,10 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<!-- app/views/pages/home.html.erb -->
+
+<h1 class="souk title">SOUK MACHINE</h1>
+
+</section>
+
+<section id="map" style="width: 100%; height: calc(100vh - 100px);" data-controller="map"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+  data-map-markers-value="<%= @markers.to_json %>">
+</section>

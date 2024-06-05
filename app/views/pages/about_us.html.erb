@@ -1,0 +1,23 @@
+<!-- app/views/pages/about_us.html.erb -->
+
+<h1>About Us</h1>
+
+<section class="project-description">
+  <h2>What is Souk Machine?</h2>
+  <p>
+    Souk Machine is an online directory where people capture the visual and auditive experience of going to a market, from anywhere in the world, all gathered in one place. It is a digital mosaic that celebrates the vibrant, chaotic, and sensory-rich environments of markets globally. Through video and audio recordings, users can share their unique perspectives and experiences, creating a dynamic and interactive cultural archive.
+  </p>
+</section>
+
+<section class="artists-involved">
+  <h2>Artists Involved</h2>
+  <div class="artist-cards">
+    <% @artists.each do |artist| %>
+      <div class="artist-card">
+        <h3><%= artist.name %></h3>
+        <p><%= artist.bio %></p>
+        <p><a href="<%= artist.website %>" target="_blank">Visit Website</a></p>
+      </div>
+    <% end %>
+  </div>
+</section>

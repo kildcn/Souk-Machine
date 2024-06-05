@@ -1,0 +1,13 @@
+<div id="submission_<%= submission.id %>">
+  <p><strong>Language:</strong> <%= submission.language %></p>
+  <% if submission.file.present? %>
+    <% if submission.file.end_with?('.mp4', '.mov', '.avi', '.mkv') %>
+      <video width="320" height="240" controls>
+        <source src="<%= submission.file %>" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    <% else %>
+      <p><%= link_to 'Download File', submission.file %></p>
+    <% end %>
+  <% end %>
+</div>

@@ -1,16 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Leila</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Souk Machine</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload", "cache-buster": Time.now.to_i %>
+  <%= javascript_importmap_tags %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+  <% flash.each do |key, message| %>
+    <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>"><%= message %></div>
+  <% end %>
+  <%= yield %>
+
+  <!-- Bottom Navbar -->
+  <nav class="bottom-navbar">
+    <a href="<%= about_us_path %>" class="nav-link">About Us</a>
+    <% if current_page?(about_us_path) %>
+      <a href="<%= root_path %>" class="nav-link">Home</a>
+    <% else %>
+      <button id="contribute-button" class="contribute-button"><span>Contribute</span></button>
+    <% end %>
+    <a href="mailto:leila.boutaam@gmail.com" class="nav-link">Contact</a>
+  </nav>
+
+  <!-- Submit Form Section -->
+  <section id="submit" class="toggle-form hidden" data-controller="address-autocomplete" data-address-autocomplete-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+    <button class="close-button">X</button>
+    <h2>Submit Your Recording</h2>
+    <%= form_with(model: @submission, url: submit_path, local: true, data: { turbo_stream: true }, html: { multipart: true }) do |form| %>
+      <div>
+        <%= form.label :file %>
+        <%= form.file_field :file, required: true, accept: 'video/*,audio/*' %>
+      </div>
+      <div class="hidden-input">
+        <%= form.label :address %>
+        <%= form.text_field :address, data: { address_autocomplete_target: "address" }, required: true, id: "submission_address" %>
+      </div>
+      <div>
+        <%= form.hidden_field :latitude, data: { address_autocomplete_target: "latitude" }, required: true %>
+      </div>
+      <div>
+        <%= form.hidden_field :longitude, data: { address_autocomplete_target: "longitude" }, required: true %>
+      </div>
+      <div>
+        <%= form.label :language %>
+        <%= form.text_field :language, required: true %>
+      </div>
+      <div>
+        <%= form.label :details %>
+        <%= form.text_area :details %>
+      </div>
+      <div>
+        <%= form.submit 'Submit' %>
+      </div>
+    <% end %>
+  </section>
+</body>
 </html>

@@ -1,0 +1,15 @@
+<!-- app/views/pages/_info_window.html.erb -->
+<div class="info-window-content">
+  <% if submission.file.present? %>
+    <div class="video-container">
+      <video width="100%" controls>
+        <source src="<%= submission.file %>" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  <% else %>
+    <p>No content available</p>
+  <% end %>
+  <p><strong>Language:</strong> <%= submission.language %></p>
+  <p><strong>Details:</strong> <%= submission.details %></p>
+</div>

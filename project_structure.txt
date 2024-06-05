@@ -1,0 +1,155 @@
+.
+├── Dockerfile
+├── Gemfile
+├── Gemfile.lock
+├── README.md
+├── Rakefile
+├── app
+│   ├── assets
+│   │   ├── config
+│   │   │   └── manifest.js
+│   │   ├── images
+│   │   └── stylesheets
+│   │       ├── LICENSE
+│   │       ├── application.scss
+│   │       ├── components
+│   │       │   ├── _alert.scss
+│   │       │   ├── _avatar.scss
+│   │       │   ├── _form_legend_clear.scss
+│   │       │   ├── _index.scss
+│   │       │   ├── _map.scss
+│   │       │   └── _navbar.scss
+│   │       ├── config
+│   │       │   ├── _bootstrap_variables.scss
+│   │       │   ├── _colors.scss
+│   │       │   └── _fonts.scss
+│   │       └── pages
+│   │           ├── _home.scss
+│   │           └── _index.scss
+│   ├── channels
+│   │   └── application_cable
+│   │       ├── channel.rb
+│   │       └── connection.rb
+│   ├── controllers
+│   │   ├── application_controller.rb
+│   │   ├── concerns
+│   │   ├── pages_controller.rb
+│   │   └── submissions_controller.rb
+│   ├── helpers
+│   │   └── application_helper.rb
+│   ├── javascript
+│   │   ├── application.js
+│   │   └── controllers
+│   │       ├── application.js
+│   │       ├── contribute_controller.js
+│   │       ├── hello_controller.js
+│   │       ├── index.js
+│   │       └── map_controller.js
+│   ├── jobs
+│   │   └── application_job.rb
+│   ├── mailers
+│   │   └── application_mailer.rb
+│   ├── models
+│   │   ├── application_record.rb
+│   │   ├── artist.rb
+│   │   ├── concerns
+│   │   ├── contact.rb
+│   │   └── submission.rb
+│   ├── uploaders
+│   │   └── video_uploader.rb
+│   └── views
+│       ├── layouts
+│       │   ├── application.html.erb
+│       │   ├── mailer.html.erb
+│       │   └── mailer.text.erb
+│       ├── pages
+│       │   ├── _info_window.html.erb
+│       │   ├── about.html.erb
+│       │   └── home.html.erb
+│       └── submissions
+│           ├── _submission.html.erb
+│           ├── create.html.erb
+│           └── create.turbo_stream.erb
+├── bin
+│   ├── bundle
+│   ├── docker-entrypoint
+│   ├── importmap
+│   ├── rails
+│   ├── rake
+│   └── setup
+├── config
+│   ├── application.rb
+│   ├── boot.rb
+│   ├── cable.yml
+│   ├── cloudinary.yml
+│   ├── credentials.yml.enc
+│   ├── database.yml
+│   ├── environment.rb
+│   ├── environments
+│   │   ├── development.rb
+│   │   ├── production.rb
+│   │   └── test.rb
+│   ├── importmap.rb
+│   ├── initializers
+│   │   ├── assets.rb
+│   │   ├── cloudinary.rb
+│   │   ├── content_security_policy.rb
+│   │   ├── filter_parameter_logging.rb
+│   │   ├── geocoder.rb
+│   │   ├── inflections.rb
+│   │   ├── permissions_policy.rb
+│   │   ├── simple_form.rb
+│   │   └── simple_form_bootstrap.rb
+│   ├── locales
+│   │   ├── en.yml
+│   │   └── simple_form.en.yml
+│   ├── master.key
+│   ├── puma.rb
+│   ├── routes.rb
+│   └── storage.yml
+├── config.ru
+├── db
+│   ├── migrate
+│   │   ├── 20240524082754_create_submissions.rb
+│   │   ├── 20240524092008_create_active_storage_tables.active_storage.rb
+│   │   ├── 20240524104042_change_file_column_in_submissions.rb
+│   │   └── 20240525132343_remove_not_null_constraint_from_file_in_submissions.rb
+│   ├── schema.rb
+│   └── seeds.rb
+├── lib
+│   ├── assets
+│   ├── tasks
+│   └── templates
+│       └── erb
+│           └── scaffold
+│               └── _form.html.erb
+├── project_structure.txt
+├── public
+│   ├── 404.html
+│   ├── 422.html
+│   ├── 500.html
+│   ├── apple-touch-icon-precomposed.png
+│   ├── apple-touch-icon.png
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── uploads
+└── test
+    ├── application_system_test_case.rb
+    ├── channels
+    │   └── application_cable
+    │       └── connection_test.rb
+    ├── controllers
+    │   └── submissions_controller_test.rb
+    ├── fixtures
+    │   └── files
+    ├── helpers
+    ├── integration
+    ├── mailers
+    ├── models
+    │   ├── artist_test.rb
+    │   ├── contact_test.rb
+    │   └── submission_test.rb
+    ├── system
+    └── test_helper.rb
+
+51 directories, 102 files

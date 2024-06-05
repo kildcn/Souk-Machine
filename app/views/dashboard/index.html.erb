@@ -1,0 +1,74 @@
+<h1>Dashboard</h1>
+
+<div class="top-right">
+  <%= form_with url: destroy_user_session_path, method: :delete do %>
+    <%= submit_tag 'Sign Out', class: 'btn-sign-out' %>
+  <% end %>
+</div>
+
+<% if notice %>
+  <div class="alert alert-success"><%= notice %></div>
+<% end %>
+
+<section class="dashboard-section">
+  <h2>Submit a New Artist</h2>
+  <%= link_to 'Submit New Artist', new_artist_path, class: 'btn-submit-artist' %>
+</section>
+
+<section class="dashboard-section">
+  <h2>Artists</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Bio</th>
+        <th>Website</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artists.each do |artist| %>
+        <tr data-controller="delete-confirmation" data-delete-confirmation-target="item">
+          <td><%= artist.name %></td>
+          <td><%= artist.bio %></td>
+          <td><%= link_to artist.website, artist.website, target: "_blank" %></td>
+          <td>
+            <%= link_to 'Delete', artist_path(artist), method: :delete, data: { action: 'delete-confirmation#delete' }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+<section class="dashboard-section">
+  <h2>Submissions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Address</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Language</th>
+        <th>Details</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @submissions.each do |submission| %>
+        <tr data-controller="delete-confirmation" data-delete-confirmation-target="item">
+          <td><%= link_to 'View File', submission.file.url, target: "_blank" if submission.file.present? %></td>
+          <td><%= submission.address %></td>
+          <td><%= submission.latitude %></td>
+          <td><%= submission.longitude %></td>
+          <td><%= submission.language %></td>
+          <td><%= submission.details %></td>
+          <td>
+            <%= link_to 'Delete', submission_path(submission), method: :delete, data: { action: 'delete-confirmation#delete' }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: dti22guzl
+  api_key: '314599866129556'
+  api_secret: XINH2ZiiL53n8mVMPUulPrKq0AI
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: dti22guzl
+  api_key: '314599866129556'
+  api_secret: XINH2ZiiL53n8mVMPUulPrKq0AI
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: dti22guzl
+  api_key: '314599866129556'
+  api_secret: XINH2ZiiL53n8mVMPUulPrKq0AI
+  enhance_image_tag: true
+  static_file_support: false

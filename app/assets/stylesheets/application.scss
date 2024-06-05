@@ -1,12 +1,467 @@
-// Graphical variables
-@import "config/fonts";
-@import "config/colors";
-@import "config/bootstrap_variables";
+@import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css");
 
-// External libraries
-@import "bootstrap";
-@import "font-awesome";
+body {
+  background-color: #03243f;
+  color: #FFF8DC;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+}
 
-// Your CSS partials
-@import "components/index";
-@import "pages/index";
+h1, h2 {
+  color: #d91fe5;
+  text-align: center;
+}
+
+p {
+  text-align: justify;
+}
+
+
+#submission_address {
+  display: none;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  display: none;
+}
+
+$input-width: 300px;
+
+// Apply the width to all input elements
+input,
+textarea {
+  width: $input-width;
+  box-sizing: border-box; // Ensure padding and border are included in the width
+}
+
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0000007e;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.bottom-navbar .nav-link {
+  color: #FFF8DC;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.bottom-navbar .nav-link:hover {
+  color: #FF6347;
+}
+
+.contribute-button {
+  color: #FFF8DC;
+  background: #d91fe5;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 4px;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.contribute-button span {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.contribute-button:hover {
+  background: #5F4B8B;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+  display: none;
+}
+
+.title {
+  text-align: center;
+  background-color: #0000007e;
+  color: #d91fe5;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  width: 100%;
+  margin: 0;
+  padding: 2px 0;
+  box-sizing: border-box;
+}
+
+.toggle-form,
+.info-window-popup {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.415);
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.toggle-form.show,
+.info-window-popup.show {
+  max-height: 80vh;
+  opacity: 1;
+}
+
+.form-popup-overlay,
+.info-window-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  transition: opacity 0.5s ease-out;
+}
+
+.form-popup-overlay.hidden,
+.info-window-popup-overlay.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.info-window-popup {
+  background: rgba(0, 0, 0, 0.415);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 1000px;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+.info-window-content {
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+
+.video-container, .audio-container {
+  width: 100%;
+  max-width: 100%;
+  margin: auto;
+}
+
+.video-container video, .audio-container audio {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  height: auto;
+  border-radius: 8px;
+}
+
+// #map {
+//   width: 100%;
+//   height: calc(100vh - 60px);
+//   min-height: 500px;
+//   position: absolute;
+//   z-index: 1;
+// }
+
+#submit {
+  margin-top: 20px;
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+#submit h2 {
+  text-align: center;
+  color: #ffffff;
+}
+
+#submit div {
+  margin-bottom: 10px;
+}
+
+#submit label {
+  display: block;
+  margin-bottom: 5px;
+  color: #ffffff;
+}
+
+#submit input, #submit textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#submit input[type="submit"] {
+  background-color: #d91fe5;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+#submit input[type="submit"]:hover {
+  background-color: #6c0a72;
+}
+
+.map-marker {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+}
+
+.marker-black-and-white {
+  filter: grayscale(100%);
+}
+
+.mapboxgl-ctrl-logo, .mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
+.custom-pop {
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  border-radius: 24px;
+}
+
+.toggle-button {
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  margin-top: 20px;
+  text-decoration: none;
+  border: 1px solid #FFA500;
+  border-radius: 5px;
+  background-color: #FFA500;
+}
+
+#all_spots_link, .spot-inactive {
+  display: none !important;
+}
+
+#bottom-panel {
+  button {
+    all: unset;
+    background-color: #fcc94900;
+    color: #FCCA49;
+    height: 40%;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #0000007e;
+  color: #FFF8DC;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  line-height: 30px;
+  transition: background 0.3s ease;
+}
+
+.close-button:hover {
+  background: #FF6347;
+}
+
+.custom-marker {
+  background-image: url('/assets/vegetable.png');
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+/* About us styling */
+.project-description, .artists-involved {
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.project-description h2, .artists-involved h2 {
+  color: #d91fe5;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.project-description p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.artist-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.artist-card {
+  background-color: #5F4B8B;
+  border-radius: 8px;
+  padding: 20px;
+  width: 60vw; /* 60% of the viewport width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+  margin-bottom: 20px; /* Add some margin to separate the cards */
+}
+
+.artist-card:hover {
+  transform: scale(1.05);
+}
+
+.artist-card h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #FFF8DC;
+}
+
+.artist-card p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.artist-card a {
+  color: #FFA500;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.artist-card a:hover {
+  text-decoration: underline;
+}
+
+/* Dashboard styling */
+.dashboard-section {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #083358;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.dashboard-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.dashboard-section th,
+.dashboard-section td {
+  border: 1px solid #FFF8DC;
+  padding: 10px;
+  text-align: left;
+}
+
+.dashboard-section th {
+  background-color: #5F4B8B;
+  color: #FFF8DC;
+}
+
+.dashboard-section td {
+  background-color: #03243f;
+}
+
+.dashboard-section td a {
+  color: #FFA500;
+  text-decoration: none;
+}
+
+.dashboard-section td a:hover {
+  text-decoration: underline;
+}
+
+.dashboard-section .btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dashboard-section .btn-danger {
+  background-color: #d9534f;
+  color: #FFF8DC;
+}
+
+.dashboard-section .btn-danger:hover {
+  background-color: #c9302c;
+}
+.btn-submit-artist {
+  background-color: #d91fe5; /* Bright orange color */
+  color: #ffffff; /* Dark text color for contrast */
+  padding: 12px 24px; /* Larger padding for a bigger button */
+  font-size: 1.2rem; /* Increase font size */
+  font-weight: bold; /* Bold text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Ensure it behaves like a button */
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-submit-artist:hover {
+  background-color: #5F4B8B; /* Slightly different shade on hover */
+}
+
+/* application.scss or any other relevant stylesheet */
+.top-right {
+  position: absolute;
+  top: 20px; /* Adjust as needed for vertical positioning */
+  right: 20px; /* Adjust as needed for horizontal positioning */
+}
+
+.btn-sign-out {
+  background-color: #d9534f; /* Bootstrap danger color */
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100px !important;
+}
+
+.btn-sign-out:hover {
+  background-color: #c9302c; /* Slightly darker shade on hover */
+}

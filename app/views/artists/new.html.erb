@@ -1,0 +1,22 @@
+<h1>Submit a New Artist</h1>
+
+<%= form_with(model: @artist, local: true) do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :bio %>
+    <%= form.text_area :bio, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :website %>
+    <%= form.text_field :website %>
+  </div>
+
+  <div>
+    <%= form.submit 'Submit' %>
+  </div>
+<% end %>
