@@ -93,7 +93,10 @@ textarea {
 }
 
 .title {
-  height: 4vh;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 4vh; /* Fixed height based on viewport height */
   text-align: center;
   background-color: #0000007e;
   color: #d91fe5;
@@ -105,6 +108,13 @@ textarea {
   box-sizing: border-box;
   z-index: 10; /* Ensure the title has a higher z-index */
   position: relative; /* Ensure the title is positioned relative to the map */
+  overflow: hidden; /* Hide overflow to ensure text does not stick out */
+}
+
+.title h1 {
+  font-size: 2.5vh; /* Adjust font size based on viewport height */
+  margin: 0; /* Remove default margin */
+  line-height: 1; /* Adjust line height to match font size */
 }
 
 .toggle-form,
