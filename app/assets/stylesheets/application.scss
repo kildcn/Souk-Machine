@@ -67,11 +67,12 @@ textarea {
   color: #FFF8DC;
   background: #d91fe5;
   border: none;
+  border-radius: 5px;
   height: 100%; /* Take up the entire height of the navbar */
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  padding: 4px 4px;
+  padding: 0px 10px; /* Apply padding to sides only */
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -467,6 +468,8 @@ textarea {
   cursor: pointer;
   font-size: 16px;
   width: 100px !important;
+  z-index: 11 !important;
+  position: relative; /* Add this line */
 }
 
 .btn-sign-out:hover {
