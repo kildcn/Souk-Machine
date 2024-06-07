@@ -109,11 +109,10 @@ textarea {
 
 .toggle-form,
 .info-window-popup {
-  max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
   position: fixed;
-  top: 10%;
+  top: 5%; /* Closer to the title */
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -123,11 +122,13 @@ textarea {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   opacity: 0;
+  max-height: calc(100vh - 9vh); /* Leave space for the navbar */
+  bottom: calc(4vh + 10px); /* Keep it above the navbar with some margin */
+  overflow-y: auto; /* Ensure content is scrollable if it exceeds max-height */
 }
 
 .toggle-form.show,
 .info-window-popup.show {
-  max-height: 80vh;
   opacity: 1;
 }
 
