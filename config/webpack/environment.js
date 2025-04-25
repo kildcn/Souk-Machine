@@ -7,7 +7,8 @@ environment.plugins.prepend(
   'Provide',
   new webpack.ProvidePlugin({
     React: 'react',
-    ReactDOM: 'react-dom'
+    ReactDOM: 'react-dom',
+    createRoot: ['react-dom/client', 'createRoot']
   })
 );
 

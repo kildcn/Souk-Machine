@@ -1,1 +1,24 @@
-<div id="react-app"></div>
+<%# app/views/react/index.html.erb %>
+<div style="text-align: center; padding: 20px;">
+  <h1 style="color: #d91fe5;">SOUK MACHINE</h1>
+  <div id="react-app" style="width: 100%; height: 90vh; background-color: rgba(0,0,0,0.2); border-radius: 8px;">
+    <!-- React app will mount here -->
+    <p style="padding-top: 20px; color: white;">Loading application...</p>
+  </div>
+</div>
+
+<script>
+  // Make the MAPBOX_API_KEY available to the React app
+  window.MAPBOX_API_KEY = "<%= ENV['MAPBOX_API_KEY'] %>";
+
+  // Add a console log to verify the script is executing
+  console.log('View template loaded, MAPBOX_API_KEY is ' + (window.MAPBOX_API_KEY ? 'present' : 'missing'));
+
+  // Add a fallback if React doesn't load
+  setTimeout(() => {
+    const reactApp = document.getElementById('react-app');
+    if (reactApp && reactApp.innerHTML.includes('Loading application...')) {
+      reactApp.innerHTML += '<p style="color: yellow; padding: 20px;">React app failed to load. Please check the console for errors.</p>';
+    }
+  }, 5000);
+</script>
