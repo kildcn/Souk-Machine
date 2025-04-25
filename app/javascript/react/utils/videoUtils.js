@@ -24,6 +24,11 @@ export const getOptimalVideoSource = (sources) => {
     { type: 'video/ogg', codec: 'theora, vorbis' }
   ];
 
+  // Handle null or undefined sources
+  if (!sources) {
+    return '';
+  }
+
   // Check for direct source
   if (typeof sources === 'string') {
     return sources;
@@ -41,15 +46,16 @@ export const getOptimalVideoSource = (sources) => {
 
   // Try formats based on priorities
   for (const format of formatPriorities) {
-    const fullType = `${format.type}; codecs="${format.codec}"`;
-    if (isVideoFormatSupported(fullType) && sources[format.type.split('/')[1]]) {
-      return sources[format.type.split('/')[1]];
+    const fullType = format.type + '; codecs="' + format.codec + '"';
+    const key = format.type.split('/')[1];
+    if (isVideoFormatSupported(fullType) && sources[key]) {
+      return sources[key];
     }
   }
 
   // Fallback to any available format
   for (const key in sources) {
-    if (sources[key]) {
+    if (Object.prototype.hasOwnProperty.call(sources, key) && sources[key]) {
       return sources[key];
     }
   }
@@ -64,13 +70,18 @@ export const getOptimalVideoSource = (sources) => {
  * @returns {Object} - Object with optimized URLs for different formats
  */
 export const handleCloudinaryVideo = (url) => {
-  if (!url || !url.includes('cloudinary')) {
+  if (!url || typeof url !== 'string' || !url.includes('cloudinary')) {
+    return { original: url || '' };
+  }
+
+  const parts = url.split('/upload/');
+  if (parts.length < 2) {
     return { original: url };
   }
 
   // For Cloudinary video URLs
-  const base = url.split('/upload/')[0] + '/upload/';
-  const identifier = url.split('/upload/')[1];
+  const base = parts[0] + '/upload/';
+  const identifier = parts[1];
 
   // Generate different format URLs
   return {

@@ -1,3 +1,4 @@
+// app/javascript/react/components/MediaPlayer.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { getOptimalVideoSource, handleCloudinaryVideo } from '../utils/videoUtils';
 
@@ -80,7 +81,7 @@ const MediaPlayer = ({ src, type = 'auto', title, details, language }) => {
     const optimalSource = getOptimalVideoSource(sources);
 
     // Check if it's a HLS (m3u8) stream
-    const isHLS = optimalSource.includes('.m3u8');
+    const isHLS = optimalSource && optimalSource.includes('.m3u8');
 
     // If HLS and HLS.js is available, use it for better compatibility
     if (isHLS && window.Hls && window.Hls.isSupported()) {
@@ -199,7 +200,7 @@ const MediaPlayer = ({ src, type = 'auto', title, details, language }) => {
 
   // Use HLS.js for HLS streams if available
   useEffect(() => {
-    if (mediaType === 'video' && mediaRef.current && sources?.adaptive_streaming) {
+    if (mediaType === 'video' && mediaRef.current && sources && sources.adaptive_streaming) {
       const isHLS = sources.adaptive_streaming.includes('.m3u8');
 
       if (isHLS && window.Hls && window.Hls.isSupported()) {

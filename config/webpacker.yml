@@ -1,5 +1,4 @@
-# Note: You must restart bin/webpack-dev-server for changes to take effect
-
+# config/webpacker.yml
 default: &default
   source_path: app/javascript
   source_entry_path: packs
@@ -9,7 +8,6 @@ default: &default
   webpack_compile_output: true
 
   # Additional paths webpack should lookup modules
-  # ['app/assets', 'engine/foo/app/assets']
   additional_paths: []
 
   # Reload manifest.json on all requests so we reload latest compiled packs
@@ -72,7 +70,6 @@ development:
     watch_options:
       ignored: '**/node_modules/**'
 
-
 test:
   <<: *default
   compile: true
@@ -84,7 +81,7 @@ production:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
-  compile: false
+  compile: true
 
   # Extract and emit a css file
   extract_css: true

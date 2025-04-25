@@ -15,15 +15,15 @@ const InteractiveMap = () => {
   // Ref for map container
   const mapContainerRef = useRef(null);
 
-  // Initialize map on component mount
   useEffect(() => {
     if (!window.mapboxgl) {
       console.error('Mapbox GL JS is not loaded');
       return;
     }
 
-    // Set Mapbox access token
-    window.mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY || '';
+    // Set Mapbox access token - UPDATE THIS LINE
+    window.mapboxgl.accessToken = window.MAPBOX_API_KEY || '';
+    console.log('Using Mapbox API key:', window.MAPBOX_API_KEY ? 'Key is present' : 'Key is missing');
 
     // Initialize the map
     const mapInstance = new window.mapboxgl.Map({

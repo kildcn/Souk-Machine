@@ -3,26 +3,38 @@ import React, { createContext, useContext, useReducer } from 'react';
 import Notification from '../components/Notification';
 
 // Create context
-const NotificationContext = createContext();
+const NotificationContext = createContext({
+  notifications: [],
+  addNotification: () => {},
+  removeNotification: () => {},
+  notify: {
+    success: () => {},
+    error: () => {},
+    warning: () => {},
+    info: () => {}
+  }
+});
 
 // Notification reducer
-const notificationReducer = (state, action) => {
+const notificationReducer = function(state, action) {
   switch (action.type) {
     case 'ADD_NOTIFICATION':
-      return [...state, { id: Date.now(), ...action.payload }];
+      return [].concat(state, [Object.assign({ id: Date.now() }, action.payload)]);
     case 'REMOVE_NOTIFICATION':
-      return state.filter(notification => notification.id !== action.payload);
+      return state.filter(function(notification) {
+        return notification.id !== action.payload;
+      });
     default:
       return state;
   }
 };
 
 // NotificationProvider component
-export const NotificationProvider = ({ children }) => {
+export const NotificationProvider = function({ children }) {
   const [notifications, dispatch] = useReducer(notificationReducer, []);
 
   // Add a notification
-  const addNotification = (notification) => {
+  const addNotification = function(notification) {
     dispatch({
       type: 'ADD_NOTIFICATION',
       payload: notification
@@ -30,7 +42,7 @@ export const NotificationProvider = ({ children }) => {
   };
 
   // Remove a notification
-  const removeNotification = (id) => {
+  const removeNotification = function(id) {
     dispatch({
       type: 'REMOVE_NOTIFICATION',
       payload: id
@@ -39,38 +51,56 @@ export const NotificationProvider = ({ children }) => {
 
   // Helper functions for common notification types
   const notify = {
-    success: (message, options = {}) => {
-      addNotification({ type: 'success', message, ...options });
+    success: function(message, options) {
+      if (!options) options = {};
+      addNotification(Object.assign({ type: 'success', message: message }, options));
     },
-    error: (message, options = {}) => {
-      addNotification({ type: 'error', message, ...options });
+    error: function(message, options) {
+      if (!options) options = {};
+      addNotification(Object.assign({ type: 'error', message: message }, options));
     },
-    warning: (message, options = {}) => {
-      addNotification({ type: 'warning', message, ...options });
+    warning: function(message, options) {
+      if (!options) options = {};
+      addNotification(Object.assign({ type: 'warning', message: message }, options));
     },
-    info: (message, options = {}) => {
-      addNotification({ type: 'info', message, ...options });
+    info: function(message, options) {
+      if (!options) options = {};
+      addNotification(Object.assign({ type: 'info', message: message }, options));
     }
   };
 
   return (
-    <NotificationContext.Provider value={{ notifications, addNotification, removeNotification, notify }}>
+    <NotificationContext.Provider value={{
+      notifications: notifications,
+      addNotification: addNotification,
+      removeNotification: removeNotification,
+      notify: notify
+    }}>
       {children}
       <div className="notifications-container">
-        {notifications.map(notification => (
-          <Notification
-            key={notification.id}
-            {...notification}
-            onClose={() => removeNotification(notification.id)}
-          />
-        ))}
+        {notifications.map(function(notification) {
+          return (
+            <Notification
+              key={notification.id}
+              type={notification.type}
+              message={notification.message}
+              title={notification.title}
+              duration={notification.duration}
+              position={notification.position}
+              onClose={function() { removeNotification(notification.id); }}
+              autoClose={notification.autoClose !== undefined ? notification.autoClose : true}
+              showIcon={notification.showIcon !== undefined ? notification.showIcon : true}
+              showCloseButton={notification.showCloseButton !== undefined ? notification.showCloseButton : true}
+            />
+          );
+        })}
       </div>
     </NotificationContext.Provider>
   );
 };
 
 // Custom hook to use the notification context
-export const useNotification = () => {
+export const useNotification = function() {
   const context = useContext(NotificationContext);
   if (context === undefined) {
     throw new Error('useNotification must be used within a NotificationProvider');

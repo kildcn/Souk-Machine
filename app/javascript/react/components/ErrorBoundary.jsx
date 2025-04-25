@@ -1,3 +1,4 @@
+// app/javascript/react/components/ErrorBoundary.jsx
 import React, { Component } from 'react';
 
 class ErrorBoundary extends Component {
@@ -26,31 +27,28 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <div className="error-boundary">
-          <h2>Something went wrong</h2>
-          <p>We're sorry, but there was an error loading this component.</p>
-          {this.props.showDetails && (
-            <details style={{ whiteSpace: 'pre-wrap' }}>
-              <summary>Error Details</summary>
-              <p>{this.state.error && this.state.error.toString()}</p>
-              <p>Component Stack: {this.state.errorInfo && this.state.errorInfo.componentStack}</p>
-            </details>
-          )}
-          {this.props.resetButton && (
-            <button
-              className="reset-button"
-              onClick={() => {
-                this.setState({ hasError: false, error: null, errorInfo: null });
-                if (this.props.onReset) {
-                  this.props.onReset();
-                }
-              }}
-            >
-              Try Again
-            </button>
-          )}
-        </div>
+      return React.createElement('div', { className: "error-boundary" },
+        React.createElement('h2', null, "Something went wrong"),
+        React.createElement('p', null, "We're sorry, but there was an error loading this component."),
+        this.props.showDetails &&
+          React.createElement('details', { style: { whiteSpace: 'pre-wrap' } },
+            React.createElement('summary', null, "Error Details"),
+            React.createElement('p', null, this.state.error && this.state.error.toString()),
+            React.createElement('p', null,
+              "Component Stack: ",
+              this.state.errorInfo && this.state.errorInfo.componentStack
+            )
+          ),
+        this.props.resetButton &&
+          React.createElement('button', {
+            className: "reset-button",
+            onClick: () => {
+              this.setState({ hasError: false, error: null, errorInfo: null });
+              if (this.props.onReset) {
+                this.props.onReset();
+              }
+            }
+          }, "Try Again")
       );
     }
 
