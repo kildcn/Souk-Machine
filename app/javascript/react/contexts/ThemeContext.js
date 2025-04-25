@@ -2,20 +2,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create theme context
-const ThemeContext = createContext();
+const ThemeContext = createContext({
+  theme: 'dark',
+  toggleTheme: () => {}
+});
 
 // ThemeProvider component
-export const ThemeProvider = ({ children }) => {
+export const ThemeProvider = function({ children }) {
   // Initialize theme based on user preference or default to dark
-  const [theme, setTheme] = useState(() => {
+  const [theme, setTheme] = useState(function() {
     // Check if theme is stored in localStorage
-    const savedTheme = localStorage.getItem('soukMachineTheme');
-    if (savedTheme) {
-      return savedTheme;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedTheme = localStorage.getItem('soukMachineTheme');
+      if (savedTheme) {
+        return savedTheme;
+      }
     }
 
     // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    if (typeof window !== 'undefined' && window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: light)').matches) {
       return 'light';
     }
 
@@ -24,25 +30,31 @@ export const ThemeProvider = ({ children }) => {
   });
 
   // Update document when theme changes
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('soukMachineTheme', theme);
+  useEffect(function() {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', theme);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('soukMachineTheme', theme);
+      }
+    }
   }, [theme]);
 
   // Toggle theme function
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
+  const toggleTheme = function() {
+    setTheme(function(prevTheme) {
+      return prevTheme === 'dark' ? 'light' : 'dark';
+    });
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: theme, toggleTheme: toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
 // Custom hook to use the theme context
-export const useTheme = () => {
+export const useTheme = function() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');

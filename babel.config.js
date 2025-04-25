@@ -75,6 +75,19 @@ module.exports = function(api) {
           async: false
         }
       ],
+      // Add optional chaining and nullish coalescing plugins for production
+      isProductionEnv && [
+        '@babel/plugin-proposal-optional-chaining',
+        {
+          loose: false,
+        }
+      ],
+      isProductionEnv && [
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+        {
+          loose: false,
+        }
+      ],
       isProductionEnv && [
         'babel-plugin-transform-react-remove-prop-types',
         {

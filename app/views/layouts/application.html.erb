@@ -1,6 +1,6 @@
 <!-- app/views/layouts/application.html.erb -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Souk Machine</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,15 +11,35 @@
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
-  <%= javascript_pack_tag 'souk_machine_react' %> <!-- Updated to use the main React pack -->
 
+  <!-- React integration -->
+  <%= javascript_pack_tag 'souk_machine_react' %>
+
+  <!-- Fonts and external stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
 </head>
 
 <body>
+  <% if content_for?(:content) %>
+    <%= yield(:content) %>
+  <% else %>
+    <div id="react-app">
+      <!-- React application will be mounted here -->
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #03243f; color: #FFF8DC;">
+        <p>Loading Souk Machine...</p>
+      </div>
+    </div>
+  <% end %>
+
+  <script>
+    // Make the MAPBOX_API_KEY available to the React app
+    window.MAPBOX_API_KEY = "<%= ENV['MAPBOX_API_KEY'] %>";
+    console.log("View template loaded, MAPBOX_API_KEY is present");
+  </script>
+
   <%= yield %>
 </body>
 </html>
