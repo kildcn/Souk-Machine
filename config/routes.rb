@@ -11,4 +11,11 @@ Rails.application.routes.draw do
   resources :artists, only: [:new, :create, :index, :destroy]
 
   get 'dashboard', to: 'dashboard#index', as: 'dashboard'
+
+  get 'react', to: 'react#index'
+
+  namespace :api do
+    resources :submissions, only: [:index]
+    resources :artists, only: [:index]
+  end
 end
